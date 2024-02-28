@@ -1,0 +1,25 @@
+services:
+  app:
+    image: goods-service
+    build: 
+      context: .
+      dockerfile: GoodsService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ConnectionStrings__DefaultConnection=Host=sql;Database=shop;Username=postgres;Password=Password123@!!!
+      - DatabaseType=Postgres
+    ports:
+      - "8080:8080"
+    depends_on:
+      - sql
+  sql:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Password123@!!!
+      POSTGRES_DB: shop
+    ports:
+      - "5432:5432"
+    volumes:
+      - /var/lib/postgresql/data
